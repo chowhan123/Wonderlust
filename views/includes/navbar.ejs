@@ -1,0 +1,64 @@
+<!-- CSS for SEARCH bar-->
+<style>
+.search-button{
+  background-color: #fe424d;
+  color: #ffff;
+  border-radius: 25px;
+  padding: 0 1rem 0 1rem;
+}
+
+.search-button:hover{
+  background-color: #fe424d;
+  color: #ffff;
+}
+
+.search-button i{
+  display: inline;
+  margin-right: 0.4rem;
+}
+
+.search-input {
+  border-radius: 25px;
+  padding: 0.3rem 3rem 0.3rem 3rem;
+  font-size: 1rem;
+}
+</style>
+
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></i></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <!--Define Homepage/listingspage/addlistingpage-->
+        <a class="nav-link" href="/listings">Explore</a>
+      </div>
+
+      <!--SEARCH BAR-->
+      <div class="navbar-nav ms-auto">
+        <form class="d-flex" role="search" action="/listings/search" method="GET">
+          <input class="form-control me-2 search-input" type="search" name="q" placeholder="Search destinations"/>
+          <button class="btn search-button" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+        </form>
+      </div>
+
+      <!--Define loginPage/logoutPage/singupPage icons at right side of nav bar-->
+      <div class="navbar-nav ms-auto">              <!-- ms-auto bootstrap styling moveN3 pages last-->
+
+        <a class="nav-link" href="/listings/new">Airbnb your home</a>
+        <% if (!currUser) { %>
+          <a class="nav-link" href="/signup"><b>signup</b></a>
+          <a class="nav-link" href="/login"><b>Login</b></a>
+        <% } %>
+
+        <% if(currUser) { %>
+          <a class="nav-link" href="/logout"><b>Logout</b></a>
+        <% } %>
+
+      </div>
+    </div>
+  </div>
+</nav>
+

@@ -1,0 +1,132 @@
+
+body{
+    font-family: "Plus Jakarta Sans", sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container{
+    flex:1;
+}
+
+/*Nav BAR*/
+.navbar{
+    height: 5rem;
+    background-color: white;
+}
+.fa-compass{
+    color: #fe424d;
+    font-size: 2rem;
+}
+.nav-link{
+    color: #222222 !important;
+}
+
+
+/*Footer styling*/
+.footer-info-links a{
+    text-decoration: none;
+    columns: #222222;
+}
+
+.footer-info-links a:hover{
+    text-decoration: underline;
+}
+
+.footer-info-links , .footer-info-socialMedia , .footer-info-brand {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-info-socialMedia i {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+ }
+
+.footer-information{
+    text-align: center;
+    height: 8rem;
+    background-color: #ebebeb;
+    display: flex;   /*The total links,icons comes to 1 line*/
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+}
+
+
+/* CARDS styling */
+.listing-card{
+    border: none !important;
+    margin-bottom: 2rem;
+}
+
+.card-body{
+    padding: 0 !important;
+}
+
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+.card-text{
+    font-weight: 400 !important;
+}
+
+.listing-link{
+    text-decoration: none;
+}
+
+/* CARD effects */
+.card-img-overlay{
+    opacity: 0;
+}
+
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
+}
+
+/* NEW page styling */
+.add-btn{
+    background: #fe424d !important;
+    border: none !important;
+}
+
+/* EDIT listing Page */
+.edit-btn{
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+/* Show page styling */
+.show-image{
+    width: 30vh;
+    height: 70vh;
+}
+
+.btns{
+    display: flex;
+}
+
+.edit-btn{
+    background-color:  #fe424d !important;
+    border: none !important;
+}
+
+.show-card{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Map CSS */
+
+#map { 
+    height: 400px;
+    width: 100vh;
+}
+
