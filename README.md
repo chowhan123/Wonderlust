@@ -1,4 +1,4 @@
-### ✈️ WonderLust - Explore & List Unique Stays
+# ✈️ WonderLust - Explore & List Unique Stays
 
 **Wonderlust** is a **Full-Stack MERN-inspired web application** (built with Node.js, Express.js, MongoDB, EJS, and Bootstrap) inspired by Airbnb.  
 It lets users **discover, list, and manage vacation stays** around the world. With features like secure authentication, image uploads, category-based filtering, and map integration, Wonderlust offers a **smooth and intuitive experience** for travelers and hosts alike.
