@@ -1,8 +1,7 @@
-
 const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js"); // imported wrapAsync file
-const {isLoggedIn,isOwner,validateListing,validateReview} = require("../middleware.js")
+const { isLoggedIn, isOwner, validateListing, validateReview } = require("../middleware.js")
 
 const ListingController = require("../controller/listing.js");
 

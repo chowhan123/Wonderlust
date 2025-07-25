@@ -3,13 +3,12 @@ if(process.env.NODE_ENV != "production"){
   require('dotenv').config();
 }
 
-
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Listing = require("./models/listing.js"); // this is imported code file for listing
+const Listing = require("./models/listing.js");
 const path = require("path"); // this import for ejs file
-const methodOverride = require("method-override"); // used for overrind like    EX:?method=PUT
+const methodOverride = require("method-override"); // used for overrind like    EX: ?method=PUT
 const ejsMate = require("ejs-mate"); // this package used for creating multiple templates or layouts
 const ExpressError = require("./utils/ExpressError.js"); // this imported code file used for giving different response to differnt routes
 
@@ -20,17 +19,16 @@ const userRouter = require("./routes/user.js");
 
 const session = require('express-session'); //imported session
 
-const MongoStore = require('connect-mongo'); // MongoStore for production deplayment storage
+const MongoStore = require('connect-mongo'); // MongoStore for production deployment storage
 const flash = require("connect-flash"); // imported connect-flash for display messsages
 
-//For generating password,username we imported below 2 packages
+//For generating password, username we imported below 2 packages
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user"); 
 
 
 //This is mongoDB connection
-//const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 DbUrl = process.env.ATLASDB;
 
 main()
