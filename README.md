@@ -77,36 +77,37 @@ SECRET=your_session_secret
 nodemon app.js
 ```
 
-### 🌐 Visit in browser:
+## 🌐 Visit in browser:
 http://localhost:8080
 
 
-### 🛡 Security & Validation
-- Session-based authentication with Passport.js
-- Joi validation: listing fields, reviews, and user data
-- Sensitive keys in .env and excluded via .gitignore
-- Input sanitation & centralized error handling middleware
+## 🛡 Security & Validation
+- 🔑 Session-based authentication with Passport.js
+- 🧪 Joi validation: listing fields, reviews, and user data
+- ☁️ Sensitive keys in .env and excluded via .gitignore
+- 🧰 Input sanitation & centralized error handling middleware
 
 
-### 📊 What I Learned & Built
-- End-to-end authentication flow
-- Using Mapbox to geocode and display maps
-- Handling file uploads securely with Multer + Cloudinary
-- RESTful API design & modular controllers
-- Real-world full-stack deployment process
-- Designing clean, responsive UI with Bootstrap
+## 📊 What I Learned & Built
+- ✅ End-to-end authentication flow
+- 🌍 Using Mapbox to geocode and display maps
+- 📦 Handling file uploads securely with Multer + Cloudinary
+- 🛠 RESTful API design & modular controllers
+- 🏗 Real-world full-stack deployment process
+- 💡 Designing clean, responsive UI with Bootstrap
 
 
-### 💡 Challenges Faced
-Challenge	Solution
-Flash messages not showing	Used middleware res.locals to share flash messages
-Cloudinary deletion of old images	Tracked filename & deleted using Cloudinary API
-Filter & search overlap	Handled separately via dedicated controller & route logic
-Validation breaking app	Added centralized Joi error handling middleware
-Session issues after login/logout	Ensured proper Passport serialize & deserialize logic
+## 💡 Challenges Faced
+| Challenge                         | Solution                                                  |
+| --------------------------------- | --------------------------------------------------------- |
+| Flash messages not showing        | Used middleware `res.locals` to share flash messages      |
+| Cloudinary deletion of old images | Tracked filename & deleted using Cloudinary API           |
+| Filter & search overlap           | Handled separately via dedicated controller & route logic |
+| Validation breaking app           | Added centralized Joi error handling middleware           |
+| Session issues after login/logout | Ensured proper Passport serialize & deserialize logic     |
 
 
-### 💬 FAQs & Interview Questions
+## 💬 FAQs & Interview Questions
 Q: Why did you choose Passport.js over JWT?
 - Passport with sessions fits classic web apps where EJS renders server-side pages; JWT is better for SPAs or APIs.
 
@@ -120,14 +121,20 @@ Q: How did you handle categories & search?
 - Implemented /search and /filter routes; used regex & query params for flexible filtering.
 
 
-### 🙌 Contact & Collaboration
-Santhosh Korra
-- 📧 santhoshnaik218@gmail.com
-- 🌐 LinkedIn
+## 🙋‍♂️ Contact Details
+
+**Santhosh Korra**  
+📧 **Email**: santhoshnaik218@gmail.com  
+🌐 **LinkedIn**: [linkedin.com/in/santhosh-chauhan](https://www.linkedin.com/in/santhosh-chauhan/)
 
 
-### 🤝 Open to:
+## 🤝 Collaboration & Connect
+
+I'm always open to:
+
 - 🌱 Contributing to open-source
 - ✏️ Learning from mentors
 - 💼 Internships & collaborations
 - 🚀 Building real-world full-stack products
+
+Feel free to connect with me on LinkedIn!
