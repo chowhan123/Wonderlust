@@ -1,5 +1,4 @@
-
-body{
+body {
     font-family: "Plus Jakarta Sans", sans-serif !important;
     display: flex;
     flex-direction: column;
@@ -10,50 +9,148 @@ body{
     flex:1;
 }
 
-/*Nav BAR*/
-.navbar{
+/* NAVBAR - Travel Theme */
+.navbar {
     height: 5rem;
     background-color: white;
-}
-.fa-compass{
-    color: #fe424d;
-    font-size: 2rem;
-}
-.nav-link{
-    color: #222222 !important;
-}
-
-
-/*Footer styling*/
-.footer-info-links a{
-    text-decoration: none;
-    columns: #222222;
-}
-
-.footer-info-links a:hover{
-    text-decoration: underline;
-}
-
-.footer-info-links , .footer-info-socialMedia , .footer-info-brand {
-    width: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Logo Icon */
+.fa-compass {
+    color: #fe424d;
+    font-size: 2.2rem;
+    margin-right: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.fa-compass:hover {
+    transform: scale(1.2) rotate(5deg);
+}
+
+/* Nav Links */
+.nav-link {
+    color: #333 !important;
+    font-weight: 600;
+    margin: 0 0.75rem;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+    position: relative;
+}
+
+/* Underline animation */
+.nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #fe424d;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #fe424d !important;
+    text-decoration: none;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+
+
+
+/* Base Footer Container */
+.footer-information {
+    background: white;
+    color: #333;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    gap: 2rem;
+}
+
+/* Link Section */
+.footer-info-links {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-info-links a {
+    text-decoration: none;
+    color: #444;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.footer-info-links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    height: 2px;
+    width: 0%;
+    background: #fe424d;
+    transition: width 0.3s ease;
+}
+
+.footer-info-links a:hover {
+    color: #fe424d;
+}
+
+.footer-info-links a:hover::after {
+    width: 100%;
+}
+
+/* Social Media Section */
+.footer-info-socialMedia {
+    display: flex;
+    gap: 1.2rem;
     justify-content: center;
 }
 
 .footer-info-socialMedia i {
-    margin-right: 1rem;
-    font-size: 1.2rem;
- }
+    font-size: 1.4rem;
+    color: #555;
+    transition: color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
 
-.footer-information{
-    text-align: center;
-    height: 8rem;
-    background-color: #ebebeb;
-    display: flex;   /*The total links,icons comes to 1 line*/
-    flex-wrap: wrap;
+.footer-info-socialMedia i:hover {
+    color: #fe424d;
+    transform: scale(1.2);
+}
+
+/* Brand / Tagline */
+.footer-info-brand {
+    font-weight: 600;
+    color: #222;
+    font-size: 1rem;
     justify-content: center;
-    align-items: space-evenly;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .footer-information {
+        flex-direction: column;
+        gap: 1rem;
+    }
 }
 
 
@@ -91,42 +188,82 @@ body{
     background-color: white;
 }
 
-/* NEW page styling */
-.add-btn{
-    background: #fe424d !important;
-    border: none !important;
-}
-
-/* EDIT listing Page */
-.edit-btn{
-    background-color: #fe424d !important;
-    border: none !important;
-}
-
-/* Show page styling */
-.show-image{
-    width: 30vh;
-    height: 70vh;
-}
-
-.btns{
+/* Responsive Grid */
+.card-grid {
     display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
 }
 
-.edit-btn{
-    background-color:  #fe424d !important;
+
+/* === Buttons (Add / Edit) === */
+.add-btn, .edit-btn {
+    background-color: #fe424d !important;
+    color: white;
     border: none !important;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.show-card{
-    padding-left: 0;
-    padding-right: 0;
+.add-btn:hover, .edit-btn:hover {
+    background-color: #e63e45 !important;
+    transform: scale(1.03);
 }
 
-/* Map CSS */
+/* Show Page Image */
+.show-image {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
 
-#map { 
+/* Button Group */
+.btns {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+/* Show Card Container */
+.show-card {
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    margin-top: 2rem;
+}
+
+/* Map Styling */
+#map {
     height: 400px;
-    width: 100vh;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 768px) {
+    .btns {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .show-image {
+        max-width: 100%;
+    }
+
+    .show-card {
+        padding: 1.2rem;
+    }
 }
 
