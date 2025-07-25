@@ -1,17 +1,14 @@
-# ✈️ Wonderlust - Explore & List Unique Stays
+### ✈️ WonderLust - Explore & List Unique Stays
 
 **Wonderlust** is a **Full-Stack MERN-inspired web application** (built with Node.js, Express.js, MongoDB, EJS, and Bootstrap) inspired by Airbnb.  
-It lets users **discover, list, and manage vacation stays** around the world.  
-With features like secure authentication, image uploads, category-based filtering, and map integration, Wonderlust offers a **smooth and intuitive experience** for travelers and hosts alike.
+It lets users **discover, list, and manage vacation stays** around the world. With features like secure authentication, image uploads, category-based filtering, and map integration, Wonderlust offers a **smooth and intuitive experience** for travelers and hosts alike.
 
----
 
 ## 🌟 Live Demo
 
 🔗 **View Deployed Project on Render**  
 *https://wonderlust-ffz4.onrender.com*
 
----
 
 ## 🎯 Objectives & Scope
 
@@ -29,7 +26,6 @@ With features like secure authentication, image uploads, category-based filterin
 - Geocoding and location preview with Mapbox
 - Flash messages & form validation for better UX
 
----
 
 ## ✨ Key Features
 
@@ -42,7 +38,6 @@ With features like secure authentication, image uploads, category-based filterin
 - ⚡ Flash messages for user-friendly feedback
 - 📱 Responsive UI built with Bootstrap & custom CSS
 
----
 
 ## 🛠 Tech Stack
 
@@ -51,7 +46,6 @@ With features like secure authentication, image uploads, category-based filterin
 | HTML, CSS, EJS | Node.js, Express | Cloudinary, Mapbox  | MongoDB  |
 | Bootstrap     | Passport.js     |                     | Mongoose |
 
----
 
 ## ⚙️ Setup Instructions
 
@@ -86,7 +80,6 @@ nodemon app.js
 ### 🌐 Visit in browser:
 http://localhost:8080
 
----
 
 ### 🛡 Security & Validation
 - Session-based authentication with Passport.js
@@ -94,7 +87,6 @@ http://localhost:8080
 - Sensitive keys in .env and excluded via .gitignore
 - Input sanitation & centralized error handling middleware
 
----
 
 ### 📊 What I Learned & Built
 - End-to-end authentication flow
@@ -104,7 +96,6 @@ http://localhost:8080
 - Real-world full-stack deployment process
 - Designing clean, responsive UI with Bootstrap
 
----
 
 ### 💡 Challenges Faced
 Challenge	Solution
@@ -114,32 +105,29 @@ Filter & search overlap	Handled separately via dedicated controller & route logi
 Validation breaking app	Added centralized Joi error handling middleware
 Session issues after login/logout	Ensured proper Passport serialize & deserialize logic
 
----
 
 ### 💬 FAQs & Interview Questions
 Q: Why did you choose Passport.js over JWT?
-✅ Passport with sessions fits classic web apps where EJS renders server-side pages; JWT is better for SPAs or APIs.
+- Passport with sessions fits classic web apps where EJS renders server-side pages; JWT is better for SPAs or APIs.
 
 Q: How do you prevent invalid data?
-✅ Used Joi schema validation and backend sanitation.
+- Used Joi schema validation and backend sanitation.
 
 Q: Why Cloudinary?
-✅ Handles secure file hosting, image transformations, and easy URL management.
+- Handles secure file hosting, image transformations, and easy URL management.
 
 Q: How did you handle categories & search?
-✅ Implemented /search and /filter routes; used regex & query params for flexible filtering.
+- Implemented /search and /filter routes; used regex & query params for flexible filtering.
 
----
 
 ### 🙌 Contact & Collaboration
 Santhosh Korra
-📧 santhoshnaik218@gmail.com
-🌐 LinkedIn
+- 📧 santhoshnaik218@gmail.com
+- 🌐 LinkedIn
 
----
 
 ### 🤝 Open to:
-🌱 Contributing to open-source
-✏️ Learning from mentors
-💼 Internships & collaborations
-🚀 Building real-world full-stack products
+- 🌱 Contributing to open-source
+- ✏️ Learning from mentors
+- 💼 Internships & collaborations
+- 🚀 Building real-world full-stack products
