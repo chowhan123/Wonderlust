@@ -45,7 +45,8 @@ app.set("views", path.join(__dirname, "views")); // this sets the correct path
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);  // use ejs-locals for all ejs templates:
-app.use(express.static(path.join(__dirname,"/public"))); // used for serving static file to all pages website Ex:styling,js code logic,image etc
+//app.use(express.static(path.join(__dirname,"/public"))); // used for serving static file to all pages website Ex:styling,js code logic,image etc
+app.use(express.static('public'));
 
 //Store the user data upto 24hrs in Mongo-DB
 const store = MongoStore.create({
