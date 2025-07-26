@@ -7,44 +7,107 @@
   </div>
 <% } %>
 
-
 <style>
-    #filters{
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-    }
-    .filter{
-        text-align: center;
-        margin-right: 2rem;
-        margin-top: 2rem;
-        opacity: 0.8;
-        align-items: center;
-    }
+#filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1rem 0;
+  gap: 1.5rem; /* nice gap instead of margin-right */
+}
 
-    .filter p{
-        font-size: 0.8rem;
-    }
+/* Individual filter cards */
+.filter {
+  background: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+  text-align: center;
+  opacity: 0.85;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  min-width: 60px;          /* Better than 30px for readability */
+  max-width: 100px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  transition: opacity 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
 
-    .filter:hover{
-        opacity: 1;
-        cursor: pointer;
-    }
+.filter p {
+  font-size: 0.85rem;
+  margin: 0;
+  color: #444;
+  font-weight: 600;
+}
 
-    .tax-info{
-        display: none;
+/* Hover and focus state */
+.filter:hover,
+.filter:focus {
+  opacity: 1;
+  box-shadow: 0 8px 20px rgba(254, 66, 77, 0.3);
+  transform: translateY(-4px);
+  outline: none;
+}
 
-    }
-    .tax-toogle{
-        border: 1px solid black;
-        border-radius: 1rem;
-        height: 3rem;
-        padding: 1rem;
-        margin-left: 4rem;
-        display:flex;
-        align-items: center;
-    }
+/* Hidden tax info */
+.tax-info {
+  display: none;
+}
+
+/* Tax toggle box */
+/* Tax toggle box */
+.tax-toogle {
+  flex-shrink: 0;
+  border: 1.5px solid #000;
+  border-radius: 1rem;
+  height: 3rem;
+  padding: 0 1.2rem;
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.tax-toogle:hover,
+.tax-toogle:focus {
+  box-shadow: 0 8px 20px rgba(254, 66, 77, 0.3);
+  transform: translateY(-3px);
+  outline: none;
+}
+
+/* Responsive for mobile */
+@media (max-width: 600px) {
+  #filters {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .filter {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .tax-toogle {
+    margin-left: 0;
+    margin-top: 1.5rem;
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+}
+
 </style>
+
 
     <div id="filters">
         <div class="filter">
@@ -80,16 +143,6 @@
         <div class="filter">
             <div><i class="fa-solid fa-tents"></i></div>
             <p>Camping</p>
-        </div>
-
-        <div class="filter">
-            <div><i class="fa-solid fa-cow"></i></div>
-            <p>Farms</p>
-        </div>
-
-        <div class="filter">
-            <div><i class="fa-regular fa-snowflake"></i></div>
-            <p>Arctic</p>
         </div>
         
         <div class="tax-toogle ">
