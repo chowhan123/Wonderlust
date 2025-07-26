@@ -92,6 +92,11 @@ app.use( (req,res,next) => {
   next();
 });
 
+// Root route → redirect to /listings or render directly
+app.get('/', (req, res) => {
+    res.redirect('/listings');
+});
+
 // Routes
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
