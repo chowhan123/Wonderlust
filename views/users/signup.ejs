@@ -1,32 +1,162 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="row mt-2">
-    <h1 class="col-6 offset-3">Signup on Wonderlust</h1>
-    <div class="col-6 offset-3">
-        <form action="/signup" method="POST" novalidate class="needs-validation">
-
-            <!-- Displays user form-->
-            <div class="mb-3"> 
-                <label for="username" class="form-label">Username</label>
-                <input name="username" id="username" type="text" class="form-control" required> <!-- form-control is a Bootstrap class used to style form elements like <input>, <textarea>, and <select> to make them look clean, consistent, and responsive.-->
-                <div class="valid-feedback">Looks good!</div>
+<div class="row mt-5 justify-content-center">
+    <div class="col-md-6 col-lg-5 mb-5">
+        <div class="signup-card shadow-lg border rounded-4 bg-white">
+            <div class="signup-header border-bottom py-3 px-4 text-center position-relative">
+                <a href="/listings" class="btn-close-custom position-absolute start-0 ms-3 top-50 translate-middle-y text-dark">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+                <span class="fw-bold small">Finish signing up</span>
             </div>
 
-            <!-- For email form-->
-            <div class="mb-3"> 
-                <label for="email" class="form-label">Email</label>
-                <input name="email" id="email" type="email" class="form-control" required> <!-- form-control is a Bootstrap class used to style form elements like <input>, <textarea>, and <select> to make them look clean, consistent, and responsive.-->
-            </div>
+            <div class="signup-body p-4">
+                <h3 class="fw-bold mb-4">Join Wanderlust</h3>
+                
+                <form action="/signup" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
+                    
+                    <div class="stacked-input-container mb-3">
+                        <div class="input-section border p-2 px-3 rounded-top-4">
+                            <label for="username" class="form-label-custom mb-0">Username</label>
+                            <input name="username" id="username" type="text" 
+                                   class="form-control-airbnb p-0 border-0" 
+                                   placeholder="Create a username" required>
+                        </div>
+                        
+                        <div class="input-section border border-top-0 p-2 px-3">
+                            <label for="email" class="form-label-custom mb-0">Email</label>
+                            <input name="email" id="email" type="email" 
+                                   class="form-control-airbnb p-0 border-0" 
+                                   placeholder="Email address" required>
+                        </div>
 
-            <!-- For password form-->
-            <div class="mb-3"> 
-                <label for="password" class="form-label">Password</label>
-                <input name="password" id="password" type="password" class="form-control" required> <!-- form-control is a Bootstrap class used to style form elements like <input>, <textarea>, and <select> to make them look clean, consistent, and responsive.-->
+                        <div class="input-section border border-top-0 p-2 px-3">
+                            <label for="avatar" class="form-label-custom mb-0">Profile Picture</label>
+                            <input name="avatar" id="avatar" type="file" 
+                                   class="form-control-airbnb custom-file-input" 
+                                   accept="image/*">
+                        </div>
+
+                        <div class="input-section border border-top-0 p-2 px-3 rounded-bottom-4">
+                            <label for="password" class="form-label-custom mb-0">Password</label>
+                            <input name="password" id="password" type="password" 
+                                   class="form-control-airbnb p-0 border-0" 
+                                   placeholder="Create a password" required>
+                        </div>
+                    </div>
+
+                    <p class="small text-muted mb-4" style="font-size: 11px; line-height: 1.5;">
+                        By selecting <strong>Agree and continue</strong>, I agree to Wanderlust’s Terms of Service and Privacy Policy. We'll send you marketing notifications periodically.
+                    </p>
+
+                    <button class="btn btn-airbnb w-100 py-3 fs-6 fw-bold">Agree and continue</button>
+                    
+                </form>
+
+                <div class="text-center mt-3 border-top pt-3">
+                    <p class="small">Already have an account? 
+                        <a href="/login" class="text-dark fw-bold text-decoration-underline">Log in</a>
+                    </p>
+                </div>
             </div>
-            <button class="btn btn-success">SignUp</button>
-        </form>
-        <br>
-        <br>
+        </div>
     </div>
 </div>
 
+<style>
+    :root {
+        --airbnb-pink: #FF385C;
+        --airbnb-gradient: linear-gradient(to right, #E61E4D 0%, #E31C5F 50%, #D70466 100%);
+        --input-border: #B0B0B0;
+    }
+
+    /* Card Styling */
+    .signup-card { 
+        border: 1px solid #DDDDDD !important; 
+        overflow: hidden;
+    }
+
+    .input-section { 
+        transition: background-color 0.2s, box-shadow 0.2s; 
+        position: relative; 
+        background-color: #fff;
+    }
+
+    .form-label-custom {
+        font-size: 10px;
+        font-weight: 800;
+        color: #222222;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .form-control-airbnb {
+        width: 100%;
+        font-size: 15px;
+        color: #222;
+        background: transparent;
+        border: none;
+        outline: none;
+        box-shadow: none !important;
+    }
+
+    /* Custom File Input Styling */
+    .custom-file-input {
+        font-size: 12px;
+        color: #717171;
+        padding: 4px 0 !important;
+    }
+
+    .custom-file-input::-webkit-file-upload-button {
+        visibility: hidden;
+        display: none;
+    }
+    
+    .custom-file-input::before {
+        content: 'Choose Photo';
+        display: inline-block;
+        background: #f7f7f7;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 2px 8px;
+        outline: none;
+        white-space: nowrap;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 10px;
+        margin-right: 10px;
+        text-transform: uppercase;
+    }
+
+    /* Focus State Logic */
+    .input-section:focus-within {
+        box-shadow: inset 0 0 0 2px #222;
+        z-index: 5;
+    }
+
+    /* Airbnb Button */
+    .btn-airbnb {
+        background: var(--airbnb-gradient);
+        border: none;
+        color: white;
+        border-radius: 8px;
+        transition: opacity 0.2s ease;
+    }
+
+    .btn-airbnb:hover {
+        opacity: 0.9;
+        color: white;
+    }
+
+    .btn-airbnb:active {
+        transform: scale(0.98);
+    }
+
+    .btn-close-custom { 
+        text-decoration: none; 
+        font-size: 18px; 
+        opacity: 0.7; 
+    }
+    
+    .btn-close-custom:hover { opacity: 1; }
+</style>

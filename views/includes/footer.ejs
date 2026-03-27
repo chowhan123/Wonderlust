@@ -1,18 +1,257 @@
-<footer>
-    <div class="footer-information">
-
-        <div class="footer-info-socialMedia">
-            <i class="fa-brands fa-square-facebook"></i>
-            <i class="fa-brands fa-square-instagram"></i>
-            <i class="fa-brands fa-linkedin"></i>
-        </div>
-
-        <div class="footer-info-brand">&copy; Wonderlust Private Limited</div>
-        <div class="footer-info-links">
-            <a href="/privacy">Privacy</a>
-            <a href="/links">Terms</a>
-            <a href="/contact">Contact</a>
-        </div>
+<footer class="main-footer">
+    <div class="container footer-grid">
         
+        <div class="footer-brand-col">
+            <div class="footer-logo">
+                <i class="fa-brands fa-airbnb"></i>
+                <span class="logo-text">WanderLust</span>
+            </div>
+            <p class="brand-tagline">
+                Discover unique stays and unforgettable experiences worldwide. Your journey begins here.
+            </p>
+            
+            <div class="newsletter-box">
+                <h6>Get travel inspiration</h6>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Email address" class="newsletter-input" required>
+                    <button type="submit" class="newsletter-btn">Join</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="links-col">
+            <h5>Explore</h5>
+            <ul>
+                <li><a href="/listings">All Listings</a></li>
+                <li><a href="/listings/new">Host your home</a></li>
+                <li><a href="/about">Our Story</a></li>
+            </ul>
+        </div>
+
+        <div class="links-col">
+            <h5>Support</h5>
+            <ul>
+                <li><a href="/help">Help Center</a></li>
+                <li><a href="/safety">AirCover</a></li>
+                <li><a href="/contact">Contact Us</a></li>
+            </ul>
+        </div>
+
+        <div class="links-col">
+            <h5>Legal</h5>
+            <ul>
+                <li><a href="/privacy">Privacy Policy</a></li>
+                <li><a href="/terms">Terms</a></li>
+                <li><a href="/sitemap">Sitemap</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div class="container footer-bottom-flex">
+            <div class="copy-text">
+                &copy; 2026 WanderLust Inc. &middot; Privacy &middot; Terms &middot; Sitemap
+            </div>
+            
+            <div class="footer-actions">
+                <div class="utility-selectors">
+                    <span><i class="fas fa-globe"></i> English (US)</span>
+                    <span><i class="fas fa-dollar-sign"></i> USD</span>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
     </div>
 </footer>
+
+<style>
+/* ========================================
+   HIGH-CONTRAST UPDATED FOOTER
+   ======================================== */
+
+.main-footer {
+    /* Using a deeper background to make white inputs and black text stand out */
+    background-color: #f2f2f2; 
+    border-top: 1px solid #e0e0e0;
+    padding: 5rem 0 0 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr 1fr 1fr;
+    gap: 3rem;
+    padding-bottom: 4rem;
+}
+
+/* Brand Section */
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.2rem;
+}
+
+.footer-logo i {
+    color: #FF385C; /* Brand Pink */
+    font-size: 2.2rem;
+}
+
+/* WanderLust Name - Clear Black */
+.logo-text {
+    font-weight: 800;
+    font-size: 1.8rem;
+    letter-spacing: -1px;
+    color: #000000 !important; 
+}
+
+.brand-tagline {
+    color: #444444; /* Darker for better visibility */
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 320px;
+    margin-bottom: 2rem;
+}
+
+/* Newsletter - Redesigned for High Visibility */
+.newsletter-box h6 {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: #000000;
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 8px;
+    max-width: 350px;
+}
+
+.newsletter-input {
+    flex: 1;
+    padding: 14px 18px;
+    /* Pure white background with a dark border so it never merges with gray */
+    background-color: #ffffff !important; 
+    border: 2px solid #333333; 
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #000000;
+    transition: box-shadow 0.2s ease;
+}
+
+.newsletter-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.2);
+}
+
+.newsletter-btn {
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    padding: 0 24px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.newsletter-btn:hover {
+    background-color: #222222;
+}
+
+/* Link Columns */
+.links-col h5 {
+    font-size: 0.9rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    color: #000000;
+    text-transform: uppercase;
+}
+
+.links-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.links-col li {
+    margin-bottom: 0.8rem;
+}
+
+.links-col a {
+    text-decoration: none;
+    color: #444444;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.links-col a:hover {
+    color: #000000;
+    text-decoration: underline;
+}
+
+/* Bottom Bar - Pure White for separation */
+.footer-bottom {
+    background-color: #ffffff;
+    border-top: 1px solid #eeeeee;
+    padding: 2rem 0;
+}
+
+.footer-bottom-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.copy-text {
+    color: #222222;
+    font-size: 0.9rem;
+}
+
+.footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.utility-selectors {
+    display: flex;
+    gap: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #222222;
+}
+
+.utility-selectors span {
+    cursor: pointer;
+}
+
+.social-links {
+    display: flex;
+    gap: 16px;
+}
+
+.social-links a {
+    color: #000000;
+    font-size: 1.4rem;
+    transition: transform 0.2s;
+}
+
+.social-links a:hover {
+    color: #FF385C;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .footer-grid { grid-template-columns: 1fr; text-align: center; }
+    .footer-brand-col { align-items: center; display: flex; flex-direction: column; }
+    .newsletter-form { flex-direction: column; width: 100%; }
+    .footer-bottom-flex { flex-direction: column-reverse; gap: 20px; }
+}
+</style>

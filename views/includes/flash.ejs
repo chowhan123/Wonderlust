@@ -1,20 +1,153 @@
-<!--Flash message for Success-->
- 
-<% if(success && success.length) { %>
-    <div class="alert alert-success alert-dismissible fade show col-6 offset-3 mt-2" role="alert">
-        <%= success %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<% } %>
+<div class="flash-wrapper">
+    <% if(success && success.length) { %>
+        <div class="flash-card success" role="alert">
+            <div class="flash-main">
+                <div class="flash-icon-box">
+                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                    </svg>
+                </div>
+                <div class="flash-content">
+                    <span class="flash-status">Success</span>
+                    <p class="flash-message"><%= success %></p>
+                </div>
+                <button class="flash-close" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="flash-progress"></div>
+        </div>
+    <% } %>
 
+    <% if(error && error.length) { %>
+        <div class="flash-card error" role="alert">
+            <div class="flash-main">
+                <div class="flash-icon-box">
+                    <i class="fa-solid fa-circle-exclamation shake-icon"></i>
+                </div>
+                <div class="flash-content">
+                    <span class="flash-status">Error</span>
+                    <p class="flash-message"><%= error %></p>
+                </div>
+                <button class="flash-close" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="flash-progress"></div>
+        </div>
+    <% } %>
+</div>
 
-<!-- Flash Message for Error -->
-<% if(error && error.length) { %>
-    <div class="alert alert-danger alert-dismissible fade show col-6 offset-3 mt-2" role="alert">
-        <%= error %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<% } %>
+<style>
+    :root {
+        --toast-success: #10b981;
+        --toast-error: #f43f5e;
+        --toast-bg: rgba(255, 255, 255, 0.95); /* Glassmorphism */
+        --toast-title: #1e293b;
+        --toast-body: #64748b;
+    }
 
+    .flash-wrapper {
+        position: fixed;
+        top: 90px; 
+        right: 25px;
+        z-index: 1000000;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        pointer-events: none;
+    }
 
+    .flash-card {
+        pointer-events: auto;
+        width: 380px;
+        max-width: 90vw;
+        background: var(--toast-bg);
+        backdrop-filter: blur(10px); /* Modern Blur */
+        border-radius: 16px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        overflow: hidden;
+        animation: toast-slide-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
 
+    .flash-main { padding: 16px 20px; display: flex; align-items: center; gap: 15px; }
+
+    /* Animated Success Checkmark Styling */
+    .checkmark {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: block;
+        stroke-width: 3;
+        stroke: var(--toast-success);
+        stroke-miterlimit: 10;
+        box-shadow: inset 0px 0px 0px var(--toast-success);
+        animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+    }
+    .checkmark__circle {
+        stroke-dasharray: 166;
+        stroke-dashoffset: 166;
+        stroke-width: 3;
+        stroke-miterlimit: 10;
+        stroke: var(--toast-success);
+        fill: none;
+        animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+    }
+    .checkmark__check {
+        transform-origin: 50% 50%;
+        stroke-dasharray: 48;
+        stroke-dashoffset: 48;
+        animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+    }
+
+    /* Error Shake Animation */
+    .shake-icon { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+
+    @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+    @keyframes fill { 100% { box-shadow: inset 0px 0px 0px 30px #fff; } }
+    @keyframes shake {
+        10%, 90% { transform: translate3d(-1px, 0, 0); }
+        20%, 80% { transform: translate3d(2px, 0, 0); }
+        30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+        40%, 60% { transform: translate3d(4px, 0, 0); }
+    }
+
+    /* Rest of your existing logic for progress bar and slide out... */
+    .flash-progress {
+        height: 3px;
+        width: 100%;
+        transform-origin: left;
+        animation: progress-drain 5s linear forwards;
+    }
+    .success .flash-progress { background: var(--toast-success); }
+    .error .flash-progress { background: var(--toast-error); }
+
+    @keyframes toast-slide-out {
+        to { opacity: 0; transform: translateX(100px) scale(0.9); }
+    }
+    @keyframes progress-drain { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+</style>
+
+<script>
+    (function() {
+        document.addEventListener('DOMContentLoaded', () => {
+            const flashItems = document.querySelectorAll('.flash-card');
+            flashItems.forEach(el => {
+                let autoCloseTimer;
+                const initiateClose = () => {
+                    el.style.animation = 'toast-slide-out 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) forwards';
+                    setTimeout(() => el.remove(), 400);
+                };
+                autoCloseTimer = setTimeout(initiateClose, 5000);
+                el.addEventListener('mouseenter', () => clearTimeout(autoCloseTimer));
+                el.addEventListener('mouseleave', () => {
+                    autoCloseTimer = setTimeout(initiateClose, 2000);
+                });
+                el.querySelector('.flash-close').addEventListener('click', initiateClose);
+                el.querySelector('.flash-progress').addEventListener('animationend', initiateClose);
+            });
+        });
+    })();
+</script>

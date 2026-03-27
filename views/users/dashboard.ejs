@@ -1,0 +1,171 @@
+<% layout("/layouts/boilerplate") %>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    .stat-card {
+        border: 1px solid var(--border-color);
+        transition: transform 0.2s ease;
+    }
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+    .guest-avatar {
+        width: 45px;
+        height: 45px;
+        object-fit: cover;
+        border: 2px solid #FF385C;
+    }
+    .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+</style>
+
+<div class="container mt-5 mb-5">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-6">
+            <h2 class="fw-bold mb-0">Host Dashboard</h2>
+            <p class="text-muted">Manage your listings and track your earnings.</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <a href="/listings/new" class="btn btn-pink rounded-pill px-4 shadow-sm">
+                <i class="fa-solid fa-plus me-1"></i> Add New Listing
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card stat-card shadow-sm p-4 rounded-4 bg-dark text-white border-0">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="small opacity-75 mb-1">Total Revenue</p>
+                        <h3 class="fw-bold mb-0">&#8377;<%= totalEarnings.toLocaleString("en-IN") %></h3>
+                    </div>
+                    <i class="fa-solid fa-wallet fs-3 opacity-50"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card stat-card shadow-sm p-4 rounded-4 bg-white">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="small text-muted mb-1">Total Bookings</p>
+                        <h3 class="fw-bold mb-0 text-pink"><%= totalBookings %></h3>
+                    </div>
+                    <i class="fa-solid fa-calendar-check fs-3 text-pink opacity-50"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card stat-card shadow-sm p-4 rounded-4 bg-white">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="small text-muted mb-1">Incoming Today</p>
+                        <h3 class="fw-bold mb-0"><%= incomingGuests.length %></h3>
+                    </div>
+                    <i class="fa-solid fa-bell fs-3 text-warning opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm p-4 rounded-4 bg-white h-100">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold mb-0">Revenue Overview</h5>
+                    <span class="badge bg-light text-dark rounded-pill px-3">Last 6 Months</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm p-4 rounded-4 bg-white h-100">
+                <h5 class="fw-bold mb-4">Arriving Today</h5>
+                <div class="guest-list">
+                    <% if(incomingGuests.length > 0) { %>
+                        <% for(let guest of incomingGuests) { %>
+                            <div class="d-flex align-items-center mb-4 p-2 rounded-3 hover-bg-light">
+                                <img src="https://ui-avatars.com/api/?name=<%= guest.user.username %>&background=FF385C&color=fff" 
+                                     class="rounded-circle me-3 guest-avatar shadow-sm">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-0 fw-bold"><%= guest.user.username %></h6>
+                                    <p class="small text-muted mb-0 text-truncate" style="max-width: 150px;">
+                                        <%= guest.listing.title %>
+                                    </p>
+                                </div>
+                                <div class="text-end">
+                                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2">Paid</span>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } else { %>
+                        <div class="text-center py-5">
+                            <i class="fa-solid fa-moon text-muted opacity-25 mb-3" style="font-size: 3rem;"></i>
+                            <h6 class="text-muted fw-bold">Quiet Day</h6>
+                            <p class="small text-muted">No guests checking in today.</p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        
+        // Gradient for the bars
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, '#FF385C');
+        gradient.addColorStop(1, '#FF385C33'); // Fade out
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: <%- JSON.stringify(monthLabels) %>,
+                datasets: [{
+                    label: 'Earnings (INR)',
+                    data: <%- JSON.stringify(monthlyData) %>,
+                    backgroundColor: gradient,
+                    borderColor: '#FF385C',
+                    borderWidth: 1,
+                    borderRadius: 10,
+                    hoverBackgroundColor: '#e31c5f'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#222',
+                        titleFont: { size: 14, weight: 'bold' },
+                        padding: 12,
+                        cornerRadius: 10,
+                        displayColors: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(0,0,0,0.05)', drawBorder: false },
+                        ticks: { color: '#888' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#888' }
+                    }
+                }
+            }
+        });
+    });
+</script>

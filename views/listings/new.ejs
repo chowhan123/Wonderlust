@@ -1,53 +1,182 @@
-
 <% layout("/layouts/boilerplate") %>
 
-    <div class="row mt-2"> <!--mt means "margin-top 3"-->
-        <div class="col-8 offset-2">
-            <br>
-            <h3>Create New Listing</h3>
-          
-            <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">  <!--"novaliate is Bootstrap errorHandling for when click add if we not declare fileds it show red Color"-->
-                <!-- mb-3 is a Bootstrap utility class that stands for "margin-bottom: 1rem" -->
-                <div class="mb-3"> 
-                   <label for="title" class="form-label">Title</label>
-                   <input name="listing[title]" placeholder="Add a catchy title" type="text" class="form-control" required> <!-- form-control is a Bootstrap class used to style form elements like <input>, <textarea>, and <select> to make them look clean, consistent, and responsive.-->
-                    <div class="valid-feedback">Title looks good!</div>
-                </div>
+<style>
+    :root {
+        --brand-pink: #FF385C;
+        --form-bg: #ffffff;
+        --input-border: #b0b0b0;
+        --input-focus: #222222;
+    }
 
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea name="listing[description]" class="form-control" required></textarea>
-                    <div class="invalid-feedback">please enter a short description</div>
-                </div>
+    .form-wrapper { margin-top: 3rem; margin-bottom: 5rem; }
 
-                 <!-- code for Upload IMAGE -->
-                <div class="mb-3">
-                    <label for="image" class="form-label">Upload Listing Image</label>
-                    <input name="listing[image]" type="file" class="form-control" required>
-                </div>
+    .form-card {
+        background: var(--form-bg);
+        border: 1px solid #dddddd;
+        border-radius: 12px;
+        padding: 2.5rem;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.04);
+    }
 
-                <div class="row">
-                    <div class="mb-3 col-md-4" >
-                        <label for="price" class="form-label">Price</label>
-                        <input name="listing[price]" placeholder="1200" class="form-control" required>
-                        <div class="invalid-feedback">Please enter a valid price</div>
-                    </div>
-                    <div class="mb-3 col-md-8">
-                        <label for="country" class="form-label">Country</label>
-                        <input name="listing[country]" placeholder="India" type="text" class="form-control" required>
-                        <div class="invalid-feedback">Country same should be valid</div>
-                    </div>
-                </div>
+    .form-header h2 {
+        font-weight: 700;
+        font-size: 1.8rem;
+        letter-spacing: -0.5px;
+    }
 
-                <div class="mb-3">
-                    <label for="location" class="form-label">Location</label>
-                    <input name="listing[location]" placeholder="Jaipur,Rajasthan" type="text" class="form-control" required>
-                    <div class="invalid-feedback">Location should be valid</div>
-                </div>
+    .form-label {
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+        color: #222;
+    }
+
+    .form-control, .form-select {
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--input-border);
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--input-focus);
+        box-shadow: none;
+        background-color: #fcfcfc;
+    }
+
+    .input-group-text {
+        background: none;
+        border-radius: 8px 0 0 8px;
+        border: 1px solid var(--input-border);
+        border-right: none;
+    }
+
+    .section-divider {
+        margin: 2rem 0;
+        border-top: 1px solid #eee;
+    }
+
+    .create-btn {
+        background: var(--brand-pink);
+        color: white;
+        border: none;
+        padding: 0.8rem 2rem;
+        font-weight: 700;
+        border-radius: 8px;
+        width: 100%;
+        font-size: 1.1rem;
+        transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .create-btn:hover {
+        background: #e31c5f;
+        transform: translateY(-2px);
+        color: white;
+    }
+
+    .helper-text {
+        font-size: 0.85rem;
+        color: #717171;
+        margin-bottom: 1rem;
+    }
+</style>
+
+<div class="container form-wrapper">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
             
-                <button class="btn btn-dark add-btn mt-2">Add</button>
-                <br>
-                <br>
-            </form>
+            <div class="form-header mb-4 text-center text-lg-start">
+                <h2>Host your space</h2>
+                <p class="text-muted">Fill in the details below to start welcoming guests to your Indian getaway.</p>
+            </div>
+
+            <div class="form-card">
+                <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
+                    
+                    <div class="form-section">
+                        <div class="mb-4">
+                            <label for="title" class="form-label">Property Title</label>
+                            <input name="listing[title]" placeholder="e.g. Royal Heritage Haveli" type="text" class="form-control" required>
+                            <div class="invalid-feedback">Please provide a catchy title.</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea name="listing[description]" rows="4" placeholder="Tell guests what makes your place special..." class="form-control" required></textarea>
+                            <div class="invalid-feedback">A short description helps guests decide.</div>
+                        </div>
+                    </div>
+
+                    <div class="section-divider"></div>
+
+                    <div class="form-section">
+                        <div class="mb-4">
+                            <label for="image" class="form-label">Property Photo</label>
+                            <p class="helper-text">Listings with clear photos get more bookings.</p>
+                            <input name="listing[image]" type="file" class="form-control" required>
+                            <div class="invalid-feedback">Please upload a property image.</div>
+                        </div>
+                    </div>
+
+                    <div class="section-divider"></div>
+
+                    <div class="row">
+                        <div class="mb-4 col-md-6">
+                            <label for="category" class="form-label">Category</label>
+                            <select name="listing[category]" class="form-select" required>
+                                <option value="" selected disabled>Select a category</option>
+                                <option value="Trending">Trending</option>
+                                <option value="Rooms">Rooms</option>
+                                <option value="Iconic cities">Iconic cities</option>
+                                <option value="Mountain">Mountain</option>
+                                <option value="Castles">Castles</option>
+                                <option value="Amazing pools">Amazing pools</option>
+                                <option value="Camping">Camping</option>
+                                <option value="Arctic">Arctic</option>
+                                <option value="Beachfront">Beachfront</option>
+                                <option value="Deserts">Deserts</option>
+                                <option value="Farms">Farms</option>
+                            </select>
+                            <div class="invalid-feedback">Please select a category.</div>
+                        </div>
+
+                        <div class="mb-4 col-md-6">
+                            <label for="price" class="form-label">Price per Night</label>
+                            <div class="input-group">
+                                <span class="input-group-text">&#8377;</span>
+                                <input name="listing[price]" placeholder="2500" type="number" class="form-control" required min="1">
+                            </div>
+                            <div class="invalid-feedback">Enter a valid price greater than 0.</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="mb-4 col-md-8">
+                            <label for="location" class="form-label">Exact Location</label>
+                            <input name="listing[location]" placeholder="Udaipur, Rajasthan" type="text" class="form-control" required>
+                            <div class="invalid-feedback">Please enter the city or neighborhood for the map.</div>
+                        </div>
+
+                        <div class="mb-4 col-md-4">
+                            <label for="country" class="form-label">Country</label>
+                            <input name="listing[country]" placeholder="India" type="text" class="form-control" required>
+                            <div class="invalid-feedback">Country name is required.</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-2">
+                        <button class="create-btn">Create New Listing</button>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="/listings" class="text-dark text-decoration-none fw-bold">
+                    <i class="fa-solid fa-arrow-left me-2"></i>Back to Explore
+                </a>
+            </div>
+
         </div>
     </div>
+</div>

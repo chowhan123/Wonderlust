@@ -113,91 +113,596 @@ body {
     }
 }
 
-/* Base Footer Container */
+/* ========================================
+   UPDATED FOOTER CSS - MODERN DESIGN
+   ======================================== */
+
+/* Footer Container */
 .footer-information {
-    background: #b8b8b8;
-    color: #333;
-    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #2d3436 0%, #1e272e 100%);
+    padding: 3rem 2rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    align-items: center;
-    text-align: center;
-    border-top: 1px solid #ddd;
-    gap: 2rem;
+    align-items: flex-start;
+    text-align: left;
+    gap: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    border-top: 3px solid #fe424d;
 }
 
-/* Link Section */
+/* Decorative Background Element */
+.footer-information::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(254, 66, 77, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* ========================================
+   FOOTER SECTIONS
+   ======================================== */
+
+.footer-section,
+.footer-brand-section,
+.footer-links-section,
+.footer-social-section {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    min-width: 250px;
+}
+
+/* ========================================
+   FOOTER BRAND & LOGO
+   ======================================== */
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.footer-logo i {
+    font-size: 2.5rem;
+    color: #fe424d;
+    filter: drop-shadow(0 2px 8px rgba(254, 66, 77, 0.4));
+    animation: rotateCompass 20s linear infinite;
+}
+
+@keyframes rotateCompass {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.footer-logo-text,
+.footer-logo span {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: 0.5px;
+}
+
+.footer-description,
+.footer-desc {
+    color: #b2bec3;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin: 0 0 1.5rem 0;
+}
+
+/* ========================================
+   NEWSLETTER SECTION
+   ======================================== */
+
+.footer-newsletter,
+.newsletter {
+    margin-top: 1rem;
+}
+
+.newsletter-title,
+.newsletter h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.newsletter-input,
+.newsletter-form input {
+    flex: 1;
+    padding: 0.85rem 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.newsletter-input::placeholder,
+.newsletter-form input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.newsletter-input:focus,
+.newsletter-form input:focus {
+    outline: none;
+    border-color: #fe424d;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(254, 66, 77, 0.1);
+}
+
+.newsletter-btn,
+.newsletter-form button {
+    padding: 0.85rem 1.5rem;
+    background: linear-gradient(135deg, #fe424d, #e63946);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(254, 66, 77, 0.3);
+}
+
+.newsletter-btn:hover,
+.newsletter-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(254, 66, 77, 0.4);
+    background: linear-gradient(135deg, #e63946, #fe424d);
+}
+
+.newsletter-note {
+    font-size: 0.8rem;
+    color: #b2bec3;
+    margin: 0;
+    font-style: italic;
+}
+
+/* ========================================
+   FOOTER SECTION TITLES
+   ======================================== */
+
+.footer-section-title,
+.footer-section h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1.25rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.footer-section-title::after,
+.footer-section h3::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, #fe424d, transparent);
+    border-radius: 2px;
+}
+
+/* ========================================
+   FOOTER LINKS
+   ======================================== */
+
 .footer-info-links {
     display: flex;
     gap: 1.5rem;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    position: relative;
+    z-index: 1;
 }
 
 .footer-info-links a {
     text-decoration: none;
-    color: #444;
+    color: #b2bec3;
     font-weight: 500;
+    font-size: 0.9rem;
     position: relative;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    padding: 0.25rem 0;
 }
 
 .footer-info-links a::after {
     content: '';
     position: absolute;
     left: 0;
-    bottom: -5px;
+    bottom: 0;
     height: 2px;
     width: 0%;
-    background: #fe424d;
+    background: linear-gradient(90deg, #fe424d, transparent);
     transition: width 0.3s ease;
 }
 
 .footer-info-links a:hover {
-    color: #fe424d;
+    color: white;
+    padding-left: 10px;
 }
 
 .footer-info-links a:hover::after {
     width: 100%;
 }
 
-/* Social Media Section */
-.footer-info-socialMedia {
+/* Footer Links List Style */
+.footer-links-list,
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.footer-link,
+.footer-section a {
+    color: #b2bec3;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding-left: 0;
+}
+
+.footer-link i,
+.footer-section a i {
+    font-size: 0.85rem;
+    color: #fe424d;
+    transition: transform 0.2s ease;
+}
+
+.footer-link:hover,
+.footer-section a:hover {
+    color: white;
+    padding-left: 10px;
+}
+
+.footer-link:hover i,
+.footer-section a:hover i {
+    transform: translateX(3px);
+}
+
+/* ========================================
+   SOCIAL MEDIA SECTION
+   ======================================== */
+
+.footer-info-socialMedia,
+.footer-social {
     display: flex;
     gap: 1.2rem;
     justify-content: center;
+    position: relative;
+    z-index: 1;
 }
 
 .footer-info-socialMedia i {
     font-size: 1.4rem;
-    color: #555;
-    transition: color 0.3s ease, transform 0.3s ease;
+    color: #dfe6e9;
+    transition: all 0.3s ease;
     cursor: pointer;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .footer-info-socialMedia i:hover {
-    color: #fe424d;
-    transform: scale(1.2);
+    color: white;
+    background: #fe424d;
+    transform: translateY(-4px) rotate(5deg);
+    box-shadow: 0 6px 20px rgba(254, 66, 77, 0.4);
+    border-color: #fe424d;
 }
 
-/* Brand / Tagline */
+/* Social Media as Links */
+.footer-info-socialMedia a,
+.footer-social a {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #dfe6e9;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-info-socialMedia a:hover,
+.footer-social a:hover {
+    background: #fe424d;
+    color: white;
+    transform: translateY(-4px) rotate(5deg);
+    box-shadow: 0 6px 20px rgba(254, 66, 77, 0.4);
+    border-color: #fe424d;
+}
+
+/* ========================================
+   BRAND / TAGLINE
+   ======================================== */
+
 .footer-info-brand {
     font-weight: 600;
-    color: #222;
+    color: white;
     font-size: 1rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* ========================================
+   FOOTER BOTTOM SECTION
+   ======================================== */
+
+.footer-bottom {
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5rem 2rem;
+}
+
+.footer-bottom-container,
+.footer-bottom-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.footer-copyright {
+    color: #b2bec3;
+    font-size: 0.9rem;
+}
+
+.footer-copyright p,
+.footer-bottom p {
+    margin: 0;
+    color: #b2bec3;
+}
+
+/* ========================================
+   PAYMENT METHODS & CERTIFICATIONS
+   ======================================== */
+
+.footer-certifications {
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.5rem 2rem;
+}
+
+.payment-methods,
+.certifications {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
     justify-content: center;
 }
 
-/* Responsive Adjustments */
+.payment-label {
+    color: #b2bec3;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+.payment-methods i {
+    font-size: 2rem;
+    color: #dfe6e9;
+    transition: all 0.2s ease;
+}
+
+.payment-methods i:hover {
+    color: white;
+    transform: translateY(-2px);
+}
+
+.cert-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(254, 66, 77, 0.1);
+    border: 1px solid rgba(254, 66, 77, 0.3);
+    border-radius: 20px;
+    color: #dfe6e9;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.cert-badge i {
+    color: #fe424d;
+}
+
+/* ========================================
+   LANGUAGE & CURRENCY SELECTORS
+   ======================================== */
+
+.footer-extras {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.language-selector,
+.currency-selector {
+    padding: 0.6rem 1.25rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: #dfe6e9;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.language-selector:hover,
+.currency-selector:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #fe424d;
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 1200px) {
+    .footer-information {
+        gap: 2rem;
+    }
+}
+
 @media (max-width: 768px) {
     .footer-information {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2.5rem 1.5rem;
+        text-align: center;
+    }
+    
+    .footer-section,
+    .footer-brand-section,
+    .footer-links-section {
+        min-width: 100%;
+    }
+    
+    .footer-logo {
+        justify-content: center;
+    }
+    
+    .footer-section-title::after,
+    .footer-section h3::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .footer-links-list,
+    .footer-section ul {
+        align-items: center;
+    }
+    
+    .newsletter-form {
+        flex-direction: column;
+    }
+    
+    .newsletter-btn,
+    .newsletter-form button {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .footer-bottom-container,
+    .footer-bottom-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .footer-extras {
+        width: 100%;
+        flex-direction: column;
+    }
+    
+    .language-selector,
+    .currency-selector {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-information {
+        padding: 2rem 1rem;
+        gap: 1.5rem;
+    }
+    
+    .footer-logo i {
+        font-size: 2rem;
+    }
+    
+    .footer-logo-text,
+    .footer-logo span {
+        font-size: 1.5rem;
+    }
+    
+    .footer-info-socialMedia i,
+    .footer-info-socialMedia a,
+    .footer-social a {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+    
+    .footer-info-links {
         flex-direction: column;
         gap: 1rem;
     }
 }
 
+/* ========================================
+   SMOOTH TRANSITIONS
+   ======================================== */
+
+* {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Fade In Animation for Footer */
+footer {
+    animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 /* CARDS styling */
 .listing-card{
@@ -310,5 +815,154 @@ body {
     .show-card {
         padding: 1.2rem;
     }
+
+    /* ========================================
+        GLOBAL VARIABLES & RESET
+     ======================================== */
+ :root {
+    --primary-red: #fe424d;
+    --primary-hover: #e63e45;
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    --jakarta: "Plus Jakarta Sans", sans-serif;
+}
+
+body {
+    font-family: var(--jakarta) !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f8f9fa; /* Subtle off-white for contrast */
+}
+
+.container {
+    flex: 1;
+}
+
+/* ========================================
+   MODERN GLASS NAVBAR
+   ======================================== */
+.navbar {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(12px); /* Glass effect */
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Logo Animation */
+.fa-compass {
+    color: var(--primary-red);
+    font-size: 2.2rem;
+    margin-right: 0.5rem;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.fa-compass:hover {
+    transform: scale(1.1) rotate(15deg);
+}
+
+.nav-link {
+    color: #444 !important;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary-red) !important;
+}
+
+/* ========================================
+   GLASS PROFILE SIDEBAR (NEW)
+   ======================================== */
+.profile-sidebar {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 2rem;
+    box-shadow: var(--card-shadow);
+    position: sticky;
+    top: 100px;
+}
+
+.profile-avatar-wrapper {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    padding: 5px;
+    background: linear-gradient(135deg, var(--primary-red), #ff7675);
+}
+
+.profile-avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
+}
+
+/* ========================================
+   CARDS & LISTINGS
+   ======================================== */
+.listing-card {
+    border: none !important;
+    background: transparent !important;
+    transition: transform 0.3s ease;
+}
+
+.listing-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-img-top {
+    border-radius: 1.2rem !important;
+    height: 18rem !important;
+    object-fit: cover !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Airbnb Style Button */
+.btn-airbnb {
+    background: linear-gradient(to right, #E61E4D 0%, #E31C5F 50%, #D70466 100%) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 10px 24px !important;
+    font-weight: 600 !important;
+    transition: opacity 0.2s ease;
+}
+
+.btn-airbnb:hover {
+    opacity: 0.9;
+}
+
+/* ========================================
+   REMAINING FOOTER & RESPONSIVE
+   ======================================== */
+/* (Your existing footer CSS goes here - it's already well designed) */
+
+.footer-information {
+    background: linear-gradient(135deg, #2d3436 0%, #1e272e 100%);
+    padding: 3rem 2rem;
+    border-top: 3px solid var(--primary-red);
+}
+
+/* Small Device Tweaks */
+@media (max-width: 768px) {
+    .navbar { padding: 0.75rem 1rem; }
+    .profile-sidebar { position: static; margin-bottom: 2rem; }
+}
 }
 

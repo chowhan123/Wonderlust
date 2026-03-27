@@ -1,59 +1,153 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="row mt-1">
-    <div class="col-8 offset-2">
-        <br>
-        <h3>Edit Listing</h3>
-        <!--enctype used for upoading image to cloudary -->
-        <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" enctype="multipart/form-data" class="needs-validation">  <!--POST request changes to PUT request automatically-->
+<style>
+    :root {
+        --brand-pink: #FF385C;
+        --input-focus: #222222;
+    }
+
+    .edit-wrapper { margin-top: 3rem; margin-bottom: 5rem; }
+    
+    .edit-card {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+
+    .edit-header h2 { font-weight: 700; color: #222; margin-bottom: 2rem; }
+
+    .preview-section {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border: 1px dashed #ccc;
+        text-align: center;
+    }
+
+    .preview-img {
+        width: 100%;
+        max-width: 250px;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        margin-top: 0.5rem;
+    }
+
+    .form-label { font-weight: 600; font-size: 0.9rem; color: #444; }
+    
+    .form-control, .form-select {
+        border-radius: 8px;
+        padding: 0.7rem;
+        border: 1px solid #b0b0b0;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--input-focus);
+        box-shadow: none;
+    }
+
+    .btn-update {
+        background: var(--brand-pink);
+        color: white;
+        border: none;
+        padding: 0.8rem 2rem;
+        font-weight: 700;
+        border-radius: 8px;
+        transition: 0.2s ease;
+    }
+
+    .btn-update:hover {
+        background: #e31c5f;
+        transform: translateY(-2px);
+        color: white;
+    }
+</style>
+
+<div class="container edit-wrapper">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
             
-            <div class="mb-3"> 
-               <label for="title" class="form-table">Title</label>
-               <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" required>
-               <div class="valid-feedback">Title looks good!</div>
-            </div>
-       
-            <div class="mb-3">
-               <label for="description" class="form-table">Description</label>
-               <textarea name="listing[description]" value="<%= listing.description %>" type="text" class="form-control" required><%= listing.description %></textarea>
-               <div class="invalid-feedback">please enter a short description</div>
+            <div class="edit-header">
+                <h2>Edit Listing Details</h2>
             </div>
 
-            <div class="mb-2">
-                Original Listing Image 
-                <br>
-                <img src="<%=  originalImageUrl %>" />
-            </div>
+            <div class="edit-card">
+                <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    
+                    <div class="mb-4">
+                        <label for="title" class="form-label">Title</label>
+                        <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" required>
+                        <div class="invalid-feedback">Please enter a catchy title.</div>
+                    </div>
 
-            <div class="mb-3">
-               <label for="image" class="form-table">Upload New Image</label>
-               <input name="listing[image]" type="file" class="form-control">
-            </div>
+                    <div class="mb-4">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea name="listing[description]" rows="4" class="form-control" required><%= listing.description %></textarea>
+                        <div class="invalid-feedback">Description is required.</div>
+                    </div>
 
-            <div class="row">
-                <div class="mb-3 col-md-4">
-                    <label for="price" class="form-table">Price</label>
-                    <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" required>
-                    <div class="invalid-feedback">Price should be valid</div>
-                </div>
-                <div class="mb-3 col-md-8">
-                    <label for="country" class="form-table">Country</label>
-                    <input name="listing[country]" value="<%= listing.country %>" type="text" class="form-control" required>
-                    <div class="invalid-feedback">Country same should be valid</div>
-                </div>
-            </div>
+                    <div class="row mb-4">
+                        <div class="col-md-5">
+                            <div class="preview-section">
+                                <span class="text-muted small fw-bold">Current Image</span>
+                                <br>
+                                <img src="<%= originalImageUrl %>" class="preview-img" alt="listing_image" />
+                            </div>
+                        </div>
+                        <div class="col-md-7 d-flex flex-column justify-content-center">
+                            <label for="image" class="form-label">Upload New Image</label>
+                            <input name="listing[image]" type="file" class="form-control">
+                            <small class="text-muted mt-2">Leave blank to keep the current photo.</small>
+                        </div>
+                    </div>
 
-            <div class="mb-3">
-               <label for="location" class="form-table">Location</label>
-               <input name="listing[location]" value="<%= listing.location %>" type="text" class="form-control" required>
-               <div class="invalid-feedback">Location should be valid</div>
+                    <hr class="my-4">
+
+                    <div class="row">
+                        <div class="mb-4 col-md-6">
+                            <label for="category" class="form-label">Category</label>
+                            <select name="listing[category]" class="form-select" required>
+                                <% const categories = ["Trending", "Rooms", "Iconic cities", "Mountain", "Castles", "Amazing pools", "Camping", "Arctic", "Beachfront"]; %>
+                                <% for(let cat of categories) { %>
+                                    <option value="<%= cat %>" <%= listing.category === cat ? 'selected' : '' %> ><%= cat %></option>
+                                <% } %>
+                            </select>
+                            <div class="invalid-feedback">Please select a category.</div>
+                        </div>
+
+                        <div class="mb-4 col-md-6">
+                            <label for="price" class="form-label">Price per Night (&#8377;)</label>
+                            <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" required>
+                            <div class="invalid-feedback">Enter a valid price.</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="mb-4 col-md-8">
+                            <label for="location" class="form-label">Location</label>
+                            <input name="listing[location]" value="<%= listing.location %>" type="text" class="form-control" required>
+                            <div class="invalid-feedback">Location is required for the map.</div>
+                        </div>
+                        <div class="mb-4 col-md-4">
+                            <label for="country" class="form-label">Country</label>
+                            <input name="listing[country]" value="<%= listing.country %>" type="text" class="form-control" required>
+                            <div class="invalid-feedback">Country name is required.</div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark fw-bold">
+                            <i class="fa-solid fa-chevron-left me-1"></i> Cancel
+                        </a>
+                        <button class="btn-update px-5">Update Listing</button>
+                    </div>
+
+                </form>
             </div>
-        
-            <button class="btn btn-dark edit-btn mt-2">Add</button>
-            <br>
-            <br>
-        </form>
+        </div>
     </div>
 </div>
-
-

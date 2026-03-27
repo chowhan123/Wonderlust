@@ -1,0 +1,180 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="row mt-4 mb-5 justify-content-center animate-fade-in">
+    <div class="col-md-10 col-lg-6">
+        <div class="edit-profile-card shadow-lg border-0 rounded-4 overflow-hidden bg-white">
+            
+            <div class="card-header-gradient p-4 text-center border-bottom bg-light">
+                <h2 class="fw-800 mb-1 text-dark">Account Settings</h2>
+                <p class="text-muted small">Manage your public profile and account security</p>
+            </div>
+
+            <div class="card-body p-4 p-md-5 pt-5">
+                <form action="/profile/edit?_method=PUT" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    
+                    <div class="avatar-upload-container text-center mb-5">
+                        <div class="position-relative d-inline-block">
+                            <div class="profile-avatar-glow"></div>
+                            <div class="avatar-preview-wrapper shadow">
+                                <img src="<%= currUser.avatar.url %>" alt="avatar" id="avatarPreview" class="img-fluid">
+                                <label for="avatarInput" class="avatar-edit-badge" title="Change Photo">
+                                    <i class="fa-solid fa-camera"></i>
+                                </label>
+                            </div>
+                        </div>
+                        <p class="mt-3 text-secondary font-sm fw-600">Profile Picture</p>
+                    </div>
+
+                    <h5 class="fw-bold mb-3"><i class="fa-solid fa-user-gear me-2 text-muted"></i>Personal Info</h5>
+                    <div class="modern-input-group mb-5 shadow-sm">
+                        <div class="modern-field top rounded-top-4 border">
+                            <span class="field-label">Username</span>
+                            <div class="d-flex align-items-center">
+                                <i class="fa-regular fa-user text-muted me-2"></i>
+                                <input name="username" type="text" class="form-control-clean" value="<%= currUser.username %>" required>
+                            </div>
+                        </div>
+                        
+                        <div class="modern-field bottom rounded-bottom-4 border border-top-0">
+                            <span class="field-label">Email Address</span>
+                            <div class="d-flex align-items-center">
+                                <i class="fa-regular fa-envelope text-muted me-2"></i>
+                                <input name="email" type="email" class="form-control-clean" value="<%= currUser.email %>" required>
+                            </div>
+                        </div>
+                        <input name="avatar" type="file" id="avatarInput" class="d-none" accept="image/*" onchange="previewImage(event)">
+                    </div>
+
+                    <div class="button-stack mb-5">
+                        <button class="btn btn-airbnb-pro w-100 mb-3 shadow-sm">
+                            <span>Save Changes</span>
+                        </button>
+                        <a href="/profile" class="btn btn-link-cancel w-100 text-center d-block">Cancel</a>
+                    </div>
+                </form>
+
+                <div class="danger-zone-wrapper pt-4 border-top">
+                    <div class="accordion accordion-flush" id="dangerAccordion">
+                        <div class="accordion-item bg-transparent">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed text-danger fw-bold bg-transparent p-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDanger">
+                                    <i class="fa-solid fa-triangle-exclamation me-2"></i> Danger Zone
+                                </button>
+                            </h2>
+                            <div id="collapseDanger" class="accordion-collapse collapse" data-bs-parent="#dangerAccordion">
+                                <div class="accordion-body px-0 pt-3">
+                                    <div class="d-flex align-items-center justify-content-between p-3 rounded-4 bg-danger-light border border-danger-subtle">
+                                        <div class="pe-3">
+                                            <p class="mb-0 fw-bold text-danger">Delete Account</p>
+                                            <p class="mb-0 text-muted small">This will permanently delete your listings and profile data.</p>
+                                        </div>
+                                        <button type="button" class="btn btn-danger btn-sm rounded-3 px-3" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal">
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-5 border-0 shadow-lg">
+            <div class="modal-body p-5 text-center">
+                <div class="text-danger mb-4">
+                    <i class="fa-solid fa-circle-exclamation fa-4xl"></i>
+                </div>
+                <h3 class="fw-800 mb-3">Wait! Are you sure?</h3>
+                <p class="text-muted mb-4">You're about to delete your Wonderlust account. This action cannot be undone and you will lose access to all your listings.</p>
+                <div class="d-grid gap-2">
+                    <form action="/profile?_method=DELETE" method="POST">
+                        <button type="submit" class="btn btn-danger w-100 py-3 rounded-3 fw-bold shadow-sm">Yes, Delete Account</button>
+                    </form>
+                    <button type="button" class="btn btn-light py-3 rounded-3 fw-semibold" data-bs-dismiss="modal">Keep My Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --airbnb-gradient: linear-gradient(to right, #E61E4D 0%, #E31C5F 50%, #D70466 100%);
+        --danger-bg: #fff5f5;
+    }
+
+    .fw-800 { font-weight: 800; }
+    .bg-danger-light { background-color: var(--danger-bg); }
+
+    /* Avatar Preview */
+    .avatar-preview-wrapper {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid #fff;
+        margin: 0 auto;
+    }
+    .avatar-preview-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .avatar-edit-badge {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        background: white;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .avatar-edit-badge:hover { transform: scale(1.1); color: #ff385c; }
+
+    /* Inputs */
+    .modern-field { padding: 15px 20px; background: #fff; transition: 0.2s; }
+    .field-label { display: block; font-size: 0.65rem; text-transform: uppercase; font-weight: 700; color: #717171; margin-bottom: 2px; }
+    .form-control-clean { border: none; width: 100%; font-weight: 600; padding: 0; outline: none; background: transparent; }
+    .modern-field:focus-within { border-color: #ff385c !important; box-shadow: 0 0 0 1px #ff385c; z-index: 2; position: relative; }
+
+    /* Buttons */
+    .btn-airbnb-pro { background: var(--airbnb-gradient); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; transition: 0.3s; }
+    .btn-airbnb-pro:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(230, 30, 77, 0.3); }
+    .btn-link-cancel { color: #717171; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+
+    /* Accordion Fixes */
+    .accordion-button::after { display: none; }
+</style>
+
+<script>
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            document.getElementById('avatarPreview').src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
