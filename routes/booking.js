@@ -4,9 +4,14 @@ const Booking = require("../models/booking");
 const Listing = require("../models/listing");
 const { isLoggedIn } = require("../middleware.js");
 const wrapAsync = require("../utils/wrapAsync.js");
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const { sendBookingEmail } = require("../utils/emailHelper");
 const PDFDocument = require("pdfkit");
+
+// --- STRIPE INITIALIZATION (Optimized for Render Deployment) ---
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
+    timeout: 30000,          // 30-second timeout for slower cloud connections
+    maxNetworkRetries: 3,    // Automatically retry 3 times on network hiccups
+});
 
 // --- STEP 1: INITIATE STRIPE CHECKOUT ---
 router.post("/checkout", isLoggedIn, wrapAsync(async (req, res) => {
@@ -17,6 +22,7 @@ router.post("/checkout", isLoggedIn, wrapAsync(async (req, res) => {
     const date1 = new Date(checkIn);
     const date2 = new Date(checkOut);
 
+    // Validation
     if (isNaN(date1.getTime()) || isNaN(date2.getTime())) {
         req.flash("error", "Please select valid check-in and check-out dates.");
         return res.redirect(`/listings/${id}`);
@@ -28,6 +34,7 @@ router.post("/checkout", isLoggedIn, wrapAsync(async (req, res) => {
         return res.redirect(`/listings/${id}`);
     }
 
+    // Check Availability
     const existingOverlap = await Booking.findOne({
         listing: id,
         $and: [{ checkIn: { $lt: date2 } }, { checkOut: { $gt: date1 } }]
@@ -40,6 +47,7 @@ router.post("/checkout", isLoggedIn, wrapAsync(async (req, res) => {
 
     const totalPrice = days * listing.price;
 
+    // Create Stripe Session
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items: [{
@@ -68,53 +76,50 @@ router.post("/checkout", isLoggedIn, wrapAsync(async (req, res) => {
     res.redirect(303, session.url);
 }));
 
-// --- STEP 2: CONFIRMATION (Optimized for Speed) ---
+// --- STEP 2: CONFIRMATION & DB SAVE ---
 router.get("/success", isLoggedIn, wrapAsync(async (req, res) => {
     const { session_id } = req.query;
     if (!session_id) return res.redirect("/listings");
 
-    const session = await stripe.checkout.sessions.retrieve(session_id);
+    try {
+        const session = await stripe.checkout.sessions.retrieve(session_id);
 
-    if (session.payment_status === "paid") {
-        const { listingId, checkIn, checkOut, totalPrice } = session.metadata;
+        if (session.payment_status === "paid") {
+            const { listingId, checkIn, checkOut, totalPrice } = session.metadata;
 
-        const finalCheckIn = new Date(checkIn);
-        const finalCheckOut = new Date(checkOut);
+            // Check if this booking was already processed (Prevents refresh duplicates)
+            const duplicateCheck = await Booking.findOne({ paymentId: session.payment_intent });
+            if (duplicateCheck) {
+                req.flash("success", "Your booking is already confirmed!");
+                return res.redirect("/profile");
+            }
 
-        // Date validation check
-        if (isNaN(finalCheckIn.getTime()) || isNaN(finalCheckOut.getTime())) {
-            req.flash("error", "Error processing booking dates.");
-            return res.redirect("/profile");
+            const newBooking = new Booking({
+                listing: listingId,
+                user: req.user._id,
+                checkIn: new Date(checkIn),
+                checkOut: new Date(checkOut),
+                totalPrice: Number(totalPrice),
+                paymentId: session.payment_intent 
+            });
+
+            await newBooking.save();
+            const listing = await Listing.findById(listingId);
+
+            // Background Email (Don't 'await' so user doesn't wait)
+            sendBookingEmail(req.user.email, newBooking, listing)
+                .catch(err => console.error("Email Error:", err));
+
+            req.flash("success", "Payment Successful! Pack your bags!");
+            res.redirect("/profile");
+        } else {
+            req.flash("error", "Payment verification failed.");
+            res.redirect("/listings");
         }
-
-        // Prevent duplicate bookings on page refresh
-        const duplicateCheck = await Booking.findOne({ paymentId: session.payment_intent });
-        if (duplicateCheck) return res.redirect("/profile");
-
-        // Save to DB
-        const newBooking = new Booking({
-            listing: listingId,
-            user: req.user._id,
-            checkIn: finalCheckIn,
-            checkOut: finalCheckOut,
-            totalPrice: Number(totalPrice),
-            paymentId: session.payment_intent 
-        });
-
-        await newBooking.save();
-
-        const listing = await Listing.findById(listingId);
-
-        // PERFORMANCE FIX: Send email in the background. 
-        // We remove 'await' so the user is redirected immediately.
-        sendBookingEmail(req.user.email, newBooking, listing)
-            .catch(err => console.error("Background Email Error:", err));
-
-        req.flash("success", "Payment Successful! Your trip is confirmed.");
+    } catch (err) {
+        console.error("Stripe Retrieval Error:", err.message);
+        req.flash("error", "There was an error verifying your payment. Please check your profile.");
         res.redirect("/profile");
-    } else {
-        req.flash("error", "Payment was not completed.");
-        res.redirect("/listings");
     }
 }));
 
@@ -124,46 +129,41 @@ router.get("/:bookingId/invoice", isLoggedIn, wrapAsync(async (req, res) => {
     const booking = await Booking.findById(bookingId).populate("listing");
 
     if (!booking || !booking.listing) {
-        req.flash("error", "Booking or property information not found.");
+        req.flash("error", "Booking information not found.");
         return res.redirect("/profile");
     }
 
     const doc = new PDFDocument({ margin: 50 });
     res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `attachment; filename=Wanderlust_Receipt_${booking._id}.pdf`);
+    res.setHeader('Content-Disposition', `attachment; filename=Invoice_${booking._id}.pdf`);
     doc.pipe(res);
 
-    // Header & Branding
+    // Styling the PDF
     doc.fillColor("#FF385C").fontSize(25).text("Wanderlust", { align: "right" });
-    doc.fillColor("#444444").fontSize(20).text("Official Receipt", 50, 50);
+    doc.fillColor("#333").fontSize(20).text("Official Receipt", 50, 50);
     doc.moveDown();
 
     doc.fontSize(12).fillColor("#000")
-       .text(`Invoice: INV-${booking._id.toString().slice(-6).toUpperCase()}`)
-       .text(`Date: ${new Date().toLocaleDateString()}`)
-       .moveDown()
+       .text(`Invoice ID: INV-${booking._id.toString().slice(-6).toUpperCase()}`)
        .text(`Guest: ${req.user.username}`)
        .text(`Property: ${booking.listing.title}`)
+       .text(`Dates: ${booking.checkIn.toDateString()} - ${booking.checkOut.toDateString()}`)
        .moveDown();
 
-    doc.rect(50, 195, 500, 20).fill("#f0f0f0");
-    doc.fillColor("#000").text("Description", 60, 200);
-    doc.text("Amount", 450, 200);
+    doc.rect(50, 200, 500, 25).fill("#f9f9f9");
+    doc.fillColor("#000").text("Description", 60, 207);
+    doc.text("Total Paid", 450, 207);
     
-    doc.text(`Stay at ${booking.listing.title}`, 60, 225);
-    doc.fontSize(10).text(`${booking.checkIn.toDateString()} to ${booking.checkOut.toDateString()}`, 60, 240);
-    doc.fontSize(12).text(`INR ${booking.totalPrice.toLocaleString("en-IN")}`, 450, 225);
+    doc.text(`Booking for ${booking.listing.title}`, 60, 240);
+    doc.fontSize(14).text(`INR ${booking.totalPrice.toLocaleString("en-IN")}`, 450, 240);
 
-    doc.moveDown(5);
-    doc.fontSize(15).text(`Paid in Full: INR ${booking.totalPrice.toLocaleString("en-IN")}`, { align: "right" });
     doc.end();
 }));
 
-// --- STEP 4: DELETE/CANCEL BOOKING ---
+// --- STEP 4: CANCEL BOOKING ---
 router.delete("/:bookingId", isLoggedIn, wrapAsync(async (req, res) => {
-    const { bookingId } = req.params;
-    await Booking.findByIdAndDelete(bookingId);
-    req.flash("success", "Booking cancelled successfully.");
+    await Booking.findByIdAndDelete(req.params.bookingId);
+    req.flash("success", "Booking cancelled.");
     res.redirect("/profile");
 }));
 
