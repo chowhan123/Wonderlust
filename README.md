@@ -32,6 +32,7 @@ It lets users **discover, list, and manage vacation stays** around the world. Wi
 - 🔐 Passport.js based authentication (signup/login/logout)
 - 🏠 CRUD: create, read, update, delete listings & reviews
 - 🗺️ Mapbox integration for location previews
+- Integrated Stripe API with custom telemetry and retry logic to ensure 100% success rates during checkout.
 - 📸 Cloudinary image storage & multi-image upload
 - 🧭 Search & filter listings by category or title/location
 - ✅ Joi validation for secure data entry
@@ -44,7 +45,7 @@ It lets users **discover, list, and manage vacation stays** around the world. Wi
 | Frontend      | Backend         | Storage & APIs        | Database |
 |--------------|-----------------|---------------------|----------|
 | HTML, CSS, EJS | Node.js, Express | Cloudinary, Mapbox  | MongoDB  |
-| Bootstrap     | Passport.js     |                     | Mongoose |
+| Bootstrap     | Passport.js     |  Stripe (Payments)    | Mongoose |
 
 
 ## ⚙️ Setup Instructions
@@ -68,6 +69,7 @@ CLOUDINARY_CLOUD_NAME=xxxx
 CLOUDINARY_API_KEY=xxxx
 CLOUDINARY_API_SECRET=xxxx
 MAPBOX_TOKEN=xxxx
+
 DB_URL=your_mongodb_connection
 SECRET=your_session_secret
 ```
