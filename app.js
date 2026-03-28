@@ -15,7 +15,7 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user"); 
-const helmet = require("helmet"); // Added for Security
+const helmet = require("helmet");
 
 // Import Routes
 const listingRouter = require("./routes/listing.js");
@@ -43,6 +43,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "/public")));
 
+// --- IMPORTANT: TRUST PROXY ---
+// This allows cookies to work on Render/HTTPS
+app.set("trust proxy", 1);
+
 // SESSION STORAGE
 const store = MongoStore.create({
     mongoUrl: DbUrl,
@@ -56,20 +60,20 @@ const sessionOptions = {
     store,
     secret: process.env.SECRET || "fallbacksecret",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false, // Better for Passport to prevent empty sessions
     cookie: {
         expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production" // Only use HTTPS in production
+        secure: process.env.NODE_ENV === "production", // Works now because of trust proxy
+        sameSite: 'lax'
     }
 };
 
 app.use(session(sessionOptions));
 app.use(flash());
 
-// --- CONTENT SECURITY POLICY (CSP) CONFIGURATION ---
-// This allows Stripe and external assets to load safely
+// --- CONTENT SECURITY POLICY (CSP) FIXED ---
 const scriptSrcUrls = [
     "https://stackpath.bootstrapcdn.com/",
     "https://api.tiles.mapbox.com/",
@@ -79,6 +83,7 @@ const scriptSrcUrls = [
     "https://cdn.jsdelivr.net",
     "https://js.stripe.com",
     "https://checkout.stripe.com",
+    "https://wonderlust-ffz4.onrender.com",
 ];
 const styleSrcUrls = [
     "https://kit-free.fontawesome.com/",
@@ -88,6 +93,7 @@ const styleSrcUrls = [
     "https://fonts.googleapis.com/",
     "https://use.fontawesome.com/",
     "https://cdn.jsdelivr.net",
+    "https://cdnjs.cloudflare.com/",
 ];
 const connectSrcUrls = [
     "https://api.mapbox.com/",
@@ -96,8 +102,14 @@ const connectSrcUrls = [
     "https://events.mapbox.com/",
     "https://js.stripe.com",
     "https://checkout.stripe.com",
+    "https://cdn.jsdelivr.net",
+    "https://wonderlust-ffz4.onrender.com",
 ];
-const fontSrcUrls = ["https://fonts.gstatic.com/", "https://cdnjs.cloudflare.com/"];
+const fontSrcUrls = [
+    "https://fonts.gstatic.com/", 
+    "https://cdnjs.cloudflare.com/",
+    "https://cdn.jsdelivr.net"
+];
 
 app.use(
     helmet.contentSecurityPolicy({
