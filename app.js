@@ -1,5 +1,3 @@
-// Ensure dotenv runs if we aren't in production, 
-// but we'll also add a fallback to make sure variables are defined.
 if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
@@ -17,6 +15,7 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user"); 
+const helmet = require("helmet"); // Added for Security
 
 // Import Routes
 const listingRouter = require("./routes/listing.js");
@@ -62,12 +61,65 @@ const sessionOptions = {
         expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production"
+        secure: process.env.NODE_ENV === "production" // Only use HTTPS in production
     }
 };
 
 app.use(session(sessionOptions));
 app.use(flash());
+
+// --- CONTENT SECURITY POLICY (CSP) CONFIGURATION ---
+// This allows Stripe and external assets to load safely
+const scriptSrcUrls = [
+    "https://stackpath.bootstrapcdn.com/",
+    "https://api.tiles.mapbox.com/",
+    "https://api.mapbox.com/",
+    "https://kit.fontawesome.com/",
+    "https://cdnjs.cloudflare.com/",
+    "https://cdn.jsdelivr.net",
+    "https://js.stripe.com",
+    "https://checkout.stripe.com",
+];
+const styleSrcUrls = [
+    "https://kit-free.fontawesome.com/",
+    "https://stackpath.bootstrapcdn.com/",
+    "https://api.mapbox.com/",
+    "https://api.tiles.mapbox.com/",
+    "https://fonts.googleapis.com/",
+    "https://use.fontawesome.com/",
+    "https://cdn.jsdelivr.net",
+];
+const connectSrcUrls = [
+    "https://api.mapbox.com/",
+    "https://a.tiles.mapbox.com/",
+    "https://b.tiles.mapbox.com/",
+    "https://events.mapbox.com/",
+    "https://js.stripe.com",
+    "https://checkout.stripe.com",
+];
+const fontSrcUrls = ["https://fonts.gstatic.com/", "https://cdnjs.cloudflare.com/"];
+
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                "https://res.cloudinary.com/dcnkefctm/",
+                "https://images.unsplash.com/",
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+            frameSrc: ["'self'", "https://js.stripe.com", "https://checkout.stripe.com"],
+        },
+    })
+);
 
 // PASSPORT
 app.use(passport.initialize());
